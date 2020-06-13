@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import logo from '../../images/logo.svg';
-import {Wrapper, Card, Templates, Form, Button} from './styles';
+import {Wrapper, Card, Templates, Form, Button, Meme} from './styles';
 import qs from 'qs';
 
 const Home = () => {
@@ -8,6 +8,7 @@ const Home = () => {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [boxes, setBoxes] = useState([]);
   const [generatedMeme, setGeneratedMeme] = useState(null);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -21,13 +22,24 @@ const Home = () => {
   const handleInputChange = (index) => (e) => {
     const newArray = boxes;
     newArray[index] = e.target.value;
-
+    
     setBoxes(newArray);
+
+    let disabled = false;
+    boxes.forEach(input => {
+      if(input?.trim().length > 0){
+        disabled = false;
+      }
+      else {
+        disabled = true;
+      }
+    });
+
+    setButtonDisabled(disabled);
   }
 
   const handleSelectTemplate = (template) => {
     setSelectedTemplate(template);
-    setBoxes([]);
   }
 
   const handleSubmit = async (e) => {
@@ -58,10 +70,10 @@ const Home = () => {
 
       {generatedMeme
         ? (
-          <>
+          <Meme>
             <img src={generatedMeme} alt="Generated Meme"/>
             <Button type="button" onClick={handleReset}>Generate another meme</Button>
-          </>
+          </Meme>
         )
         : (
           <Card>
@@ -81,18 +93,18 @@ const Home = () => {
 
             {selectedTemplate && (
               <>
-                <h2>Textos</h2>
+                <h2>Texts</h2>
 
                 <Form onSubmit={handleSubmit}>
                   {(new Array(selectedTemplate.box_count)).fill('').map((_, index) => (
                       <input key={index}
-                      type="text"
-                      placeholder={`Text ${index + 1}`}
-                      onChange={handleInputChange(index)}
+                        type="text"
+                        placeholder={`Text ${index + 1}`}
+                        onChange={handleInputChange(index)}
                       />
                   ))}
         
-                  <Button type="submit">MakeMyMeme</Button>
+                  <Button type="submit" disabled={buttonDisabled} >MakeMyMeme</Button>
                 </Form>
               </>
             )}

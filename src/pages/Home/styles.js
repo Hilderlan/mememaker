@@ -78,3 +78,17 @@ export const Button = styled.button`
     background: #3672A3;
   }
 `;
+
+export const Meme = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  
+  img {
+    border-radius: 8px;
+    margin: 10px 0px;
+    width: 400px;
+    height: 400px;
+    }
+`;
