@@ -36,13 +36,17 @@ export const Templates = styled.div`
   margin-bottom: 30px;
 
   button {
-    border: 0;
     background: transparent;
     margin-right: 10px;
+    border: 2px solid transparent;
 
     img {
       width: 53px;
       height: 53px;
+    }
+
+    &.selected {
+      border-color: #4395DB;
     }
   }
 `;
